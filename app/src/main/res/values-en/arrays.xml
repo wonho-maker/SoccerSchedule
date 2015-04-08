@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="title_sections">
+        <item>Soccer Schedule</item>
+        <item>Soccer News</item>
+        <item>ranks</item>
+    </string-array>
+
+</resources>

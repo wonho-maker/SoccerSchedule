@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Soccer Schedule</string>
+
+    <string name="title_section1">해외축구일정</string>
+    <string name="title_section2">해외축구소식</string>
+    <string name="title_section3">순위표</string>
+
+    <string name="title_actionbar">메뉴 선택</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Action</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="testMessage">test</string>
+</resources>

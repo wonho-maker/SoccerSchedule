@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="title_sections">
+        <item>해외축구일정</item>
+        <item>해외축구뉴스</item>
+        <item>각 리그순위</item>
+    </string-array>
+
+
+
+</resources>
