@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.maker.wonho.soccerschedule.R;
+import net.maker.wonho.soccerschedule.fragments.NewsFragment;
+import net.maker.wonho.soccerschedule.fragments.RankFragment;
 import net.maker.wonho.soccerschedule.fragments.ScheduleFragment;
 
 
@@ -52,9 +54,11 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Log.i("test","test");
+        position += 1;
+        Log.i("position : ", " "+position);
+
         switch(position) {
-            case 0:
+            case 1:
                 ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.expandableListView_schedule);
 
                 if(scheduleFragment == null || scheduleFragment.getPosition() != position) {
@@ -66,9 +70,28 @@ public class MainActivity extends ActionBarActivity
                         .replace(R.id.container, scheduleFragment)
                         .commit();
                 break;
-            case 1:
+            case 2:
+                NewsFragment newsFragment = (NewsFragment) fragmentManager.findFragmentById(R.id.webView_news);
+
+                if(newsFragment == null || newsFragment.getPostion() != position) {
+                    newsFragment = newsFragment.newInstance(position);
+
+                }
+
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                        .replace(R.id.container, newsFragment)
+                        .commit();
+                break;
+            case 3:
+                RankFragment rankFragment = (RankFragment) fragmentManager.findFragmentById(R.id.listView_leagueRank);
+
+                if(rankFragment == null || rankFragment.getPosition() != position) {
+                    rankFragment = rankFragment.newInstance(position);
+
+                }
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, rankFragment)
                         .commit();
                 break;
         }
