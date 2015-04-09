@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity
 
         switch(position) {
             case 1:
-                ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.expandableListView_schedule);
+                ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.schedule_expandableListView);
 
                 if(scheduleFragment == null || scheduleFragment.getPosition() != position) {
                     scheduleFragment = scheduleFragment.newInstance(position);
