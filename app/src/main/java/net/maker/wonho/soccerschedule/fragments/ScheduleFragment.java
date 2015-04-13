@@ -32,12 +32,20 @@ public class ScheduleFragment extends Fragment {
     private AnimatedExpandableListView aniExpandListView;
     private AnimatedExpListAdapter animatedExpListAdapter;
 
+    public static ScheduleFragment newInstance(){
+        ScheduleFragment scheduleFragment = new ScheduleFragment();
+
+        return scheduleFragment;
+    }
+
     public static ScheduleFragment newInstance(int position){
         ScheduleFragment scheduleFragment = new ScheduleFragment();
+
 
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, position);
         scheduleFragment.setArguments(args);
+
 
         return scheduleFragment;
     }
@@ -50,54 +58,10 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View scheduleView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        List<GroupItem> items = new ArrayList<GroupItem>();
-
-        // Populate our list with groups and it's children
-        for(int i = 1; i < 10; i++) {
-            GroupItem item = new GroupItem();
-
-            item.title = "Group " + i;
-            if(i%4 == 0){
-                item.leagueLogoURL = LeagueData.SerieA_URL;
-            }
-            else if(i%4 == 1) {
-                item.leagueLogoURL = LeagueData.PremierLeague_URL;
-            }
-            else if(i%4 == 2) {
-                item.leagueLogoURL = LeagueData.Bundesliga_URL;
-            }
-            else if(i%4 == 3) {
-                item.leagueLogoURL = LeagueData.France_Ligue1_URL;
-            }
-            else {
-                item.leagueLogoURL = LeagueData.LaLiga_URL;
-            }
-
-
-            for(int j = 0; j < i; j++) {
-                ChildItem child = new ChildItem();
-                child.title = "Awesome item " + j;
-                child.hint = "Too awesome";
-
-                item.items.add(child);
-            }
-
-            items.add(item);
-        }
-
-        animatedExpListAdapter = new AnimatedExpListAdapter(this.getActivity().getApplicationContext());
-        animatedExpListAdapter.setData(items);
-
         // get the listview
         aniExpandListView = (AnimatedExpandableListView) scheduleView.findViewById(R.id.schedule_expandableListView);
-        aniExpandListView.setAdapter(animatedExpListAdapter);
-        // preparing list data
-        //prepareListData();
 
-        //listAdapter = new ExpandableListAdapter(this.getActivity().getBaseContext(), listDataHeader, listDataChild);
 
-        // setting list adapter
-        //expandableListView.setAdapter(listAdapter);
         aniExpandListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override
@@ -118,8 +82,11 @@ public class ScheduleFragment extends Fragment {
         return scheduleView;
     }
 
-    private void prepareListData() {
+    public void updateList(List<GroupItem> scheduleListData) {
+        animatedExpListAdapter = new AnimatedExpListAdapter(this.getActivity().getApplicationContext());
+        animatedExpListAdapter.setData(scheduleListData);
 
+        aniExpandListView.setAdapter(animatedExpListAdapter);
     }
 
     @Override

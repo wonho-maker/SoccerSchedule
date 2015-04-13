@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingRight="10dp"
     android:paddingLeft="50dp">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/schedule_list_item_textView" />
+        android:layout_weight="10"
+        android:text="time"
+        android:id="@+id/schedule_list_item_time_textView" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:text="home"
+        android:id="@+id/schedule_list_item_homeTeam_textView" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:src="@android:drawable/sym_def_app_icon"
+        android:id="@+id/schedule_list_item_homeTeam_imageView"
+        android:contentDescription="homeTeam" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:text="score"
+        android:id="@+id/schedule_list_item_score_textView" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:src="@android:drawable/sym_def_app_icon"
+        android:id="@+id/schedule_list_item_awayTeam_imageView"
+        android:contentDescription="awayTeam" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:text="away"
+        android:id="@+id/schedule_list_item_awayTeam_textView" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:text="place"
+        android:id="@+id/schedule_list_item_place_textView" />
 </LinearLayout>

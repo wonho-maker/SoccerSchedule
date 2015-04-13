@@ -23,6 +23,7 @@ import net.maker.wonho.soccerschedule.fragments.RankFragment;
 import net.maker.wonho.soccerschedule.fragments.ScheduleFragment;
 import net.maker.wonho.soccerschedule.parser.ParseTask;
 import net.maker.wonho.soccerschedule.parser.ParserData;
+import net.maker.wonho.soccerschedule.schedule.list.data.form.GroupItem;
 
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        taskProgressDia = new ProgressDialog(this);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -59,7 +62,9 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 drawerLayout);
 
-        taskProgressDia = new ProgressDialog(this);
+
+
+
     }
 
     @Override
@@ -72,15 +77,28 @@ public class MainActivity extends ActionBarActivity
         switch(position) {
             case 1:
 
-                ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.schedule_expandableListView);
-
-                if(scheduleFragment == null || scheduleFragment.getPosition() != position) {
+                ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentByTag("scheduleFragment");
+                Log.i("fragments", fragmentManager.getFragments().toString());
+                if (scheduleFragment == null) {
+                    Log.i("test", "position");
                     scheduleFragment = scheduleFragment.newInstance(position);
 
+                    fragmentManager.beginTransaction()
+                            .add(scheduleFragment, "scheduleFragment")
+                            .replace(R.id.container, scheduleFragment)
+                            .commit();
+                } else if (scheduleFragment.getPosition() != position) {
+                    scheduleFragment = scheduleFragment.newInstance(position);
+                    Log.i("test", "position2");
+                    fragmentManager.beginTransaction()
+                            .add(scheduleFragment, "scheduleFragment")
+                            .replace(R.id.container, scheduleFragment)
+                            .commit();
                 }
 
-                new ScheduleParseTask().execute(ParserData.ParseType.SCHEDULE);
 
+
+                new ScheduleParseTask().execute(ParserData.ParseType.SCHEDULE);
 
                 break;
             case 2:
@@ -169,10 +187,12 @@ public class MainActivity extends ActionBarActivity
             taskProgressDia.setCancelable(false);
 
             taskProgressDia.show();
+
+            Log.i("test", "test");
         }
 
         @Override
-        protected void onPostExecute(List<Element> source) {
+        protected void onPostExecute(List<GroupItem> sheduleListData) {
 
             /*TextView textView = (TextView) findViewById(R.id.textView1);
             textView.setText(" ");
@@ -182,11 +202,20 @@ public class MainActivity extends ActionBarActivity
             }*/
             FragmentManager fragmentManager = getSupportFragmentManager();
 
-            ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.schedule_expandableListView);
+            ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentByTag("scheduleFragment");
 
-            fragmentManager.beginTransaction()
+            Log.i("test", fragmentManager.getFragments().toString());
+            if(scheduleFragment != null) {
+                scheduleFragment.updateList(sheduleListData);
+
+            }else{
+                Log.i("main", "fragment null");
+            }
+
+            /*fragmentManager.beginTransaction()
                     .replace(R.id.container, scheduleFragment)
-                    .commit();
+                    .commit();*/
+
 
             taskProgressDia.dismiss();
         }
