@@ -1,6 +1,7 @@
 package net.maker.wonho.soccerschedule;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,11 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import net.htmlparser.jericho.Element;
 import net.maker.wonho.soccerschedule.R;
 import net.maker.wonho.soccerschedule.fragments.NewsFragment;
 import net.maker.wonho.soccerschedule.fragments.RankFragment;
 import net.maker.wonho.soccerschedule.fragments.ScheduleFragment;
+import net.maker.wonho.soccerschedule.parser.ParseTask;
+import net.maker.wonho.soccerschedule.parser.ParserData;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
@@ -32,6 +39,9 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+
+    ProgressDialog taskProgressDia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,8 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 drawerLayout);
+
+        taskProgressDia = new ProgressDialog(this);
     }
 
     @Override
@@ -59,6 +71,7 @@ public class MainActivity extends ActionBarActivity
 
         switch(position) {
             case 1:
+
                 ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.schedule_expandableListView);
 
                 if(scheduleFragment == null || scheduleFragment.getPosition() != position) {
@@ -66,9 +79,9 @@ public class MainActivity extends ActionBarActivity
 
                 }
 
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, scheduleFragment)
-                        .commit();
+                new ScheduleParseTask().execute(ParserData.ParseType.SCHEDULE);
+
+
                 break;
             case 2:
                 NewsFragment newsFragment = (NewsFragment) fragmentManager.findFragmentById(R.id.webView_news);
@@ -148,21 +161,51 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private class ScheduleParseTask extends ParseTask {
+        @Override
+        protected void onPreExecute() {
+            taskProgressDia.setTitle("Schedule Loading...");
+            taskProgressDia.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            taskProgressDia.setCancelable(false);
+
+            taskProgressDia.show();
+        }
+
+        @Override
+        protected void onPostExecute(List<Element> source) {
+
+            /*TextView textView = (TextView) findViewById(R.id.textView1);
+            textView.setText(" ");
+            for (int i =0; i < source.size(); i++) {
+                textView.setText(" ");
+                textView.append("number "+i+"\n"+source.get(i).toString());
+            }*/
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentById(R.id.schedule_expandableListView);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, scheduleFragment)
+                    .commit();
+
+            taskProgressDia.dismiss();
+        }
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    //public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+        //private static final String ARG_SECTION_NUMBER = "section_number";
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        /*public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -186,6 +229,6 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
-    }
+    }*/
 
 }
