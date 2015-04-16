@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import net.maker.wonho.soccerschedule.MainActivity;
 import net.maker.wonho.soccerschedule.R;
@@ -39,6 +40,10 @@ public class RankFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rankView = inflater.inflate(R.layout.fragment_league_rank, container, false);
+
+        //WebView webView = (WebView) rankView.findViewById(R.id.league_rank_webView);
+        //webView.loadUrl("http://m.sports.naver.com/epl/record/index.nhn");
+        //webView.getSettings().setJavaScriptEnabled(true);
 
         return rankView;
     }

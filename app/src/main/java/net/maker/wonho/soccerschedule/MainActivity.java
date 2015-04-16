@@ -79,20 +79,19 @@ public class MainActivity extends ActionBarActivity
 
                 ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentByTag("scheduleFragment");
                 Log.i("fragments", fragmentManager.getFragments().toString());
+
                 if (scheduleFragment == null) {
                     Log.i("test", "position");
                     scheduleFragment = scheduleFragment.newInstance(position);
 
                     fragmentManager.beginTransaction()
-                            .add(scheduleFragment, "scheduleFragment")
-                            .replace(R.id.container, scheduleFragment)
+                            .replace(R.id.container, scheduleFragment, "scheduleFragment")
                             .commit();
                 } else if (scheduleFragment.getPosition() != position) {
                     scheduleFragment = scheduleFragment.newInstance(position);
                     Log.i("test", "position2");
                     fragmentManager.beginTransaction()
-                            .add(scheduleFragment, "scheduleFragment")
-                            .replace(R.id.container, scheduleFragment)
+                            .replace(R.id.container, scheduleFragment, "scheduleFragment")
                             .commit();
                 }
 
@@ -102,7 +101,7 @@ public class MainActivity extends ActionBarActivity
 
                 break;
             case 2:
-                NewsFragment newsFragment = (NewsFragment) fragmentManager.findFragmentById(R.id.webView_news);
+                NewsFragment newsFragment = (NewsFragment) fragmentManager.findFragmentByTag("newsFragment");
 
                 if(newsFragment == null || newsFragment.getPostion() != position) {
                     newsFragment = newsFragment.newInstance(position);
@@ -110,11 +109,11 @@ public class MainActivity extends ActionBarActivity
                 }
 
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, newsFragment)
+                        .replace(R.id.container, newsFragment, "newsFragment")
                         .commit();
                 break;
             case 3:
-                RankFragment rankFragment = (RankFragment) fragmentManager.findFragmentById(R.id.listView_leagueRank);
+                RankFragment rankFragment = (RankFragment) fragmentManager.findFragmentByTag("rankFragment");
 
                 if(rankFragment == null || rankFragment.getPosition() != position) {
                     rankFragment = rankFragment.newInstance(position);
@@ -122,7 +121,7 @@ public class MainActivity extends ActionBarActivity
                 }
 
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, rankFragment)
+                        .replace(R.id.container, rankFragment, "rankFragment")
                         .commit();
                 break;
         }
@@ -204,12 +203,12 @@ public class MainActivity extends ActionBarActivity
 
             ScheduleFragment scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentByTag("scheduleFragment");
 
-            Log.i("test", fragmentManager.getFragments().toString());
+            //Log.i("test", fragmentManager.getFragments().toString());
             if(scheduleFragment != null) {
                 scheduleFragment.updateList(sheduleListData);
 
             }else{
-                Log.i("main", "fragment null");
+                //Log.i("main", "fragment null");
             }
 
             /*fragmentManager.beginTransaction()
